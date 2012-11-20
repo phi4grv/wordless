@@ -1,6 +1,44 @@
 {
-    "hash": "947894b1fbd3b5ca4ef1a681d08cf60c",
+    "hash": "8977f19d0712369c4b954ea8beefc334",
     "packages": [
+        {
+            "name": "bobthecow/faker",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bobthecow/Faker.git",
+                "reference": "5e0ee7d6c1cb3be80bc7c69e7018a88bbedceea8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/bobthecow/Faker/archive/5e0ee7d6c1cb3be80bc7c69e7018a88bbedceea8.zip",
+                "reference": "5e0ee7d6c1cb3be80bc7c69e7018a88bbedceea8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "conflict": {
+                "fzaninotto/faker": "*"
+            },
+            "time": "2012-11-18 21:20:39",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Faker": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "The easiest way to generate fake data in PHP"
+        },
         {
             "name": "mthaml/mthaml",
             "version": "dev-master",
@@ -40,55 +78,6 @@
             "keywords": [
                 "HAML"
             ]
-        },
-        {
-            "name": "twig/twig",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "git://github.com/fabpot/Twig.git",
-                "reference": "9b75e2c7ae51b66fd4bb2ffbf1d2f28a8604e8f6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/fabpot/Twig/archive/9b75e2c7ae51b66fd4bb2ffbf1d2f28a8604e8f6.zip",
-                "reference": "9b75e2c7ae51b66fd4bb2ffbf1d2f28a8604e8f6",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.4"
-            },
-            "time": "2012-11-19 07:06:38",
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.12-dev"
-                }
-            },
-            "installation-source": "source",
-            "autoload": {
-                "psr-0": {
-                    "Twig_": "lib/"
-                }
-            },
-            "license": [
-                "BSD-3"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Armin Ronacher",
-                    "email": "armin.ronacher@active-4.com"
-                }
-            ],
-            "description": "Twig, the flexible, fast, and secure template language for PHP",
-            "homepage": "http://twig.sensiolabs.org",
-            "keywords": [
-                "templating"
-            ]
         }
     ],
     "packages-dev": null,
@@ -98,6 +87,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "mthaml/mthaml": 20,
-        "twig/twig": 20
+        "bobthecow/faker": 20
     }
 }
