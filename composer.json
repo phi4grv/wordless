@@ -1,0 +1,15 @@
+{
+  "name": "welaika/wordless",
+  "description": "Wordless",
+  "require": {
+    "mthaml/mthaml": "dev-master",
+    "twig/twig": "dev-master"
+  },
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Stefano Verna",
+      "email": "stefano.verna@welaika.com"
+    }
+  ]
+}
