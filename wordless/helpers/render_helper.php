@@ -51,7 +51,7 @@ class RenderHelper {
    */
   function render_template($name, $locals = array()) {
     try {
-      $valid_filenames = array("$name.html.haml", "$name.haml", "$name.html.php", "$name.php");
+      $valid_filenames = array("$name.html.jade", "$name.html.haml", "$name.haml", "$name.html.php", "$name.php");
       foreach ($valid_filenames as $filename) {
         $path = Wordless::join_paths(Wordless::theme_views_path(), $filename);
         if (is_file($path)) {
@@ -75,6 +75,10 @@ class RenderHelper {
           $compiled_path = compile_haml($template_path);
           include $compiled_path;
           break;
+        case 'jade':
+          $compiled_path = compile_jade($template_path);
+          include $compiled_path;
+          break;
         case 'php':
           include $template_path;
           break;
@@ -86,38 +90,56 @@ class RenderHelper {
     }
   }
 
+  function compile_jade($template_path) {
+    $cache_path = template_cache_path($template_path);
+    if (!compiled_expired($template_path, $cache_path)) {
+      return $cache_path;
+    }
+    ensure_path_writable(dirname($cache_path));
+
+    $jade = new Jade\Jade();
+    $view = $jade->render($template_path);
+    file_put_contents($cache_path, $view);
+    return $cache_path;
+  }
+
   function compile_haml($template_path) {
     $cache_path = template_cache_path($template_path);
-
-    if (file_exists($cache_path)) {
+    if (!compiled_expired($template_path, $cache_path)) {
       return $cache_path;
     }
+    ensure_path_writable(dirname($cache_path));
+    $haml = new MtHaml\Environment('php', array('enable_escaper' => false));
+    $view = $haml->compileString(file_get_contents($template_path), $template_path);
+    file_put_contents($cache_path, $view);
+    return $cache_path;
+  }
 
-    $cache_dir = dirname($cache_path);
-
-    if (!file_exists($cache_dir)) {
-      mkdir($cache_dir, 0760);
+  function compiled_expired($template, $cache) {
+    if (!file_exists($cache)) {
+      return true;
     }
-    if (!is_writable($cache_dir)) {
-      chmod($cache_dir, 0760);
-    }
+    $cache_time = filemtime($cache);
+    return $cache_time && filemtime($template) >= $cache_time;
+  }
 
-    if (is_writable($cache_dir)) {
-      $haml = new MtHaml\Environment('php', array('enable_escaper' => false));
-      $view = $haml->compileString(file_get_contents($template_path), $template_path);
-      file_put_contents($cache_path, $view);
-      return $cache_path;
-    } else {
+  function ensure_path_writable($dir) {
+    if (!is_dir($dir)) {
+      mkdir($dir, 0760);
+    }
+    if (!is_writable($dir)) {
+      chmod($dir, 0760);
+    }
+    if (!is_writable($dir)) {
       throw new TemplateRenderException(
-        "Temp dir not writable",
-        "It seems that the <code>$cache_dir</code> directory is not writable by the server! Go fix it!"
+        "Directory not writable",
+        "It seems that the <code>$dir</code> directory is not writable by the server! Go fix it!"
       );
     }
   }
 
   function template_cache_path($template_path) {
-    $content = file_get_contents($template_path);
-    $filename = basename($template_path, '.php') . "-" . md5($content) . ".php";
+    $filename = basename($template_path, '.php') . ".php";
     $tmp_dir = Wordless::theme_temp_path();
     return Wordless::join_paths($tmp_dir, $filename);
   }

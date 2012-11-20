@@ -1,6 +1,7 @@
 {
   "require": {
     "mthaml/mthaml": "dev-master",
-    "bobthecow/faker": "dev-master"
+    "bobthecow/faker": "dev-master",
+    "dz0ny/jade.php": "dev-master"
   }
 }
